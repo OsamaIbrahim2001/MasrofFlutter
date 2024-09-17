@@ -4,7 +4,7 @@ import 'package:my_project/UI/AuthScreen.dart';
 import 'auth_service.dart';
 
 class SessionManager extends ChangeNotifier {
-  static const int sessionTimeoutInSeconds = 60; // 1 minute for demo
+  static const int sessionTimeoutInSeconds = 300; // 1 minute for demo
   Timer? _sessionTimer;
   bool _isAuthenticated = true;
 

@@ -47,7 +47,10 @@ class HomePage extends StatelessWidget {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         IconButton(
-                          icon: const Icon(Icons.edit),
+                          icon: const Icon(
+                            Icons.edit,
+                            color: Colors.blue,
+                          ),
                           onPressed: () {
                             Navigator.push(
                                 context,
@@ -57,7 +60,10 @@ class HomePage extends StatelessWidget {
                           },
                         ),
                         IconButton(
-                          icon: const Icon(Icons.delete),
+                          icon: const Icon(
+                            Icons.delete,
+                            color: Colors.red,
+                          ),
                           onPressed: () {
                             masrofProvider.deleteMasrof(masrof.id!);
                           },

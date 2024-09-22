@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:my_project/Models/MasrofModel.dart';
 import 'package:my_project/Providers/masrof_provider.dart';
 import 'package:provider/provider.dart';
@@ -57,6 +58,23 @@ class _EditMasrofPageState extends State<EditMasrofPage> {
     }
   }
 
+  Future<void> _selectDate(BuildContext context) async {
+    final DateTime? pickedDate = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(), // Default date
+      firstDate: DateTime(2000), // Earliest date the user can pick
+      lastDate: DateTime(2100), // Latest date the user can pick
+    );
+
+    if (pickedDate != null) {
+      setState(() {
+        // Formatting the picked date to 'yyyy-MM-dd' or any format you prefer
+        _operationDateController.text =
+            DateFormat('yyyy-MM-dd').format(pickedDate);
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -71,7 +89,10 @@ class _EditMasrofPageState extends State<EditMasrofPage> {
             children: [
               TextFormField(
                 controller: _operationDateController,
-                decoration: const InputDecoration(labelText: 'Operation Date'),
+                decoration: const InputDecoration(
+                    labelText: 'Operation Date', hintText: 'Select Date'),
+                readOnly: true,
+                onTap: () => _selectDate(context),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter a date';

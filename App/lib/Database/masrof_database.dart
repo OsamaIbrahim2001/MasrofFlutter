@@ -44,9 +44,54 @@ class MasrofDatabase {
         conflictAlgorithm: ConflictAlgorithm.replace);
   }
 
-  Future<List<Masrof>> getMasrofList() async {
+  Future<List<Masrof>> getMasrofList({
+    String? operationTypeFilter,
+    String? paymentTypeFilter,
+    String? reasonFilter,
+    double? valueFilter,
+    DateTime? operationDateFilter,
+  }) async {
     final db = await database;
-    final List<Map<String, dynamic>> maps = await db.query('masrof');
+    // Construct the WHERE clause dynamically based on provided filters
+    String whereClause = '';
+    List<dynamic> whereArgs = [];
+
+    if (operationTypeFilter != null) {
+      whereClause += 'operationType = ? ';
+      whereArgs.add(operationTypeFilter);
+    }
+
+    if (paymentTypeFilter != null) {
+      if (whereClause.isNotEmpty) whereClause += 'AND ';
+      whereClause += 'paymentType = ? ';
+      whereArgs.add(paymentTypeFilter);
+    }
+
+    if (reasonFilter != null && reasonFilter.isNotEmpty) {
+      if (whereClause.isNotEmpty) whereClause += 'AND ';
+      whereClause += 'reason LIKE ? ';
+      whereArgs.add('%$reasonFilter%');
+    }
+
+    if (valueFilter != null) {
+      if (whereClause.isNotEmpty) whereClause += 'AND ';
+      whereClause += 'value = ? ';
+      whereArgs.add(valueFilter);
+    }
+
+    if (operationDateFilter != null) {
+      if (whereClause.isNotEmpty) whereClause += 'AND ';
+      whereClause += 'operationDate = ? ';
+      whereArgs.add(operationDateFilter
+          .toIso8601String()); // Assuming the date is stored in ISO format
+    }
+
+    // If no filters are applied, return the full list
+    String query = 'SELECT * FROM masrof';
+    if (whereClause.isNotEmpty) {
+      query += ' WHERE $whereClause';
+    }
+    final List<Map<String, dynamic>> maps = await db.rawQuery(query, whereArgs);
     return List.generate(maps.length, (i) => Masrof.fromMap(maps[i]));
   }
 

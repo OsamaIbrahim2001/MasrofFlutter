@@ -38,7 +38,7 @@ class _AuthScreenState extends State<AuthScreen> {
       Provider.of<SessionManager>(context, listen: false)
           .startSessionTimer(context);
       Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => const HomePage()));
+          context, MaterialPageRoute(builder: (context) => HomePage()));
     }
   }
 

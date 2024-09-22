@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:my_project/Providers/masrof_provider.dart';
 import 'package:my_project/Services/session_manager.dart';
+import 'package:my_project/UI/HomePage.dart';
 import 'package:provider/provider.dart';
-import 'UI/AuthScreen.dart';
 
 void main() {
   runApp(
@@ -11,9 +11,6 @@ void main() {
         ChangeNotifierProvider(
             create: (context) =>
                 MasrofProvider()), // For managing Masrof entries
-        ChangeNotifierProvider(
-            create: (context) =>
-                SessionManager()), // For managing session timeout
       ],
       child: const MasrofApp(),
     ),
@@ -31,7 +28,7 @@ class MasrofApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const AuthScreen(), // Starts with authentication screen
+      home: HomePage(), // Starts with authentication screen
     );
   }
 }
